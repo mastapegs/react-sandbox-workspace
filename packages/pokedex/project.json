@@ -1,0 +1,83 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/pokedex/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/packages/pokedex",
+        "index": "packages/pokedex/src/index.html",
+        "baseHref": "/",
+        "main": "packages/pokedex/src/main.tsx",
+        "polyfills": "packages/pokedex/src/polyfills.ts",
+        "tsConfig": "packages/pokedex/tsconfig.app.json",
+        "assets": [
+          "packages/pokedex/src/favicon.ico",
+          "packages/pokedex/src/assets"
+        ],
+        "styles": ["packages/pokedex/src/styles.css"],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "packages/pokedex/src/environments/environment.ts",
+              "with": "packages/pokedex/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "pokedex:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "pokedex:build:development"
+        },
+        "production": {
+          "buildTarget": "pokedex:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/pokedex/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/pokedex"],
+      "options": {
+        "jestConfig": "packages/pokedex/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
